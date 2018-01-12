@@ -108,7 +108,7 @@
         android:orientation="horizontal">
 
 
-        <TextView
+        <com.example.eweli.sm_projekt.LetterTextView
             android:id="@+id/answerLabel"
             style="@style/LetterLabelView"
            />
@@ -138,162 +138,218 @@
             android:columnCount="7"
             android:rowCount="5">
 
-            <TextView
+            <com.example.eweli.sm_projekt.LetterTextView
                 style="@style/AlphabetLetterTextView"
                 android:onClick="onClick"
                 android:tag="A"
                 android:text="A" />
 
-            <TextView
+            <com.example.eweli.sm_projekt.LetterTextView
+                style="@style/AlphabetLetterTextView"
+                android:fontFamily="monospace"
+                android:onClick="onClick"
+                android:tag="Ą"
+                android:text="Ą" />
+
+            <com.example.eweli.sm_projekt.LetterTextView
                 style="@style/AlphabetLetterTextView"
                 android:onClick="onClick"
                 android:tag="B"
                 android:text="B" />
 
-            <TextView
+            <com.example.eweli.sm_projekt.LetterTextView
                 style="@style/AlphabetLetterTextView"
                 android:onClick="onClick"
                 android:tag="C"
                 android:text="C" />
 
-            <TextView
+            <com.example.eweli.sm_projekt.LetterTextView
+                style="@style/AlphabetLetterTextView"
+                android:onClick="onClick"
+                android:tag="Ć"
+                android:text="Ć" />
+
+            <com.example.eweli.sm_projekt.LetterTextView
                 style="@style/AlphabetLetterTextView"
                 android:onClick="onClick"
                 android:tag="D"
                 android:text="D" />
 
-            <TextView
+            <com.example.eweli.sm_projekt.LetterTextView
                 style="@style/AlphabetLetterTextView"
                 android:onClick="onClick"
                 android:tag="E"
                 android:text="E" />
 
-            <TextView
+            <com.example.eweli.sm_projekt.LetterTextView
+                style="@style/AlphabetLetterTextView"
+                android:onClick="onClick"
+                android:tag="Ę"
+                android:text="Ę" />
+
+            <com.example.eweli.sm_projekt.LetterTextView
                 style="@style/AlphabetLetterTextView"
                 android:onClick="onClick"
                 android:tag="F"
                 android:text="F" />
 
-            <TextView
+            <com.example.eweli.sm_projekt.LetterTextView
                 style="@style/AlphabetLetterTextView"
                 android:onClick="onClick"
                 android:tag="G"
                 android:text="G" />
 
-            <TextView
+            <com.example.eweli.sm_projekt.LetterTextView
                 style="@style/AlphabetLetterTextView"
                 android:onClick="onClick"
                 android:tag="H"
                 android:text="H" />
 
-            <TextView
+            <com.example.eweli.sm_projekt.LetterTextView
                 style="@style/AlphabetLetterTextView"
                 android:onClick="onClick"
                 android:tag="I"
                 android:text="I" />
 
-            <TextView
+            <com.example.eweli.sm_projekt.LetterTextView
                 style="@style/AlphabetLetterTextView"
                 android:onClick="onClick"
                 android:tag="J"
                 android:text="J" />
 
-            <TextView
+            <com.example.eweli.sm_projekt.LetterTextView
                 style="@style/AlphabetLetterTextView"
                 android:onClick="onClick"
                 android:tag="K"
                 android:text="K" />
 
-            <TextView
+            <com.example.eweli.sm_projekt.LetterTextView
                 style="@style/AlphabetLetterTextView"
                 android:onClick="onClick"
                 android:tag="L"
                 android:text="L" />
 
-            <TextView
+            <com.example.eweli.sm_projekt.LetterTextView
+                style="@style/AlphabetLetterTextView"
+                android:onClick="onClick"
+                android:tag="Ł"
+                android:text="Ł" />
+
+            <com.example.eweli.sm_projekt.LetterTextView
                 style="@style/AlphabetLetterTextView"
                 android:onClick="onClick"
                 android:tag="M"
                 android:text="M" />
 
-            <TextView
+            <com.example.eweli.sm_projekt.LetterTextView
                 style="@style/AlphabetLetterTextView"
                 android:onClick="onClick"
                 android:tag="N"
                 android:text="N" />
 
-            <TextView
+            <com.example.eweli.sm_projekt.LetterTextView
+                style="@style/AlphabetLetterTextView"
+                android:onClick="onClick"
+                android:tag="Ń"
+                android:text="Ń" />
+
+            <com.example.eweli.sm_projekt.LetterTextView
                 style="@style/AlphabetLetterTextView"
                 android:onClick="onClick"
                 android:tag="O"
                 android:text="O" />
 
-            <TextView
+            <com.example.eweli.sm_projekt.LetterTextView
+                style="@style/AlphabetLetterTextView"
+                android:onClick="onClick"
+                android:tag="Ó"
+                android:text="Ó" />
+
+            <com.example.eweli.sm_projekt.LetterTextView
                 style="@style/AlphabetLetterTextView"
                 android:onClick="onClick"
                 android:tag="P"
                 android:text="P" />
 
-            <TextView
+            <com.example.eweli.sm_projekt.LetterTextView
                 style="@style/AlphabetLetterTextView"
                 android:onClick="onClick"
                 android:tag="Q"
                 android:text="Q" />
 
-            <TextView
+            <com.example.eweli.sm_projekt.LetterTextView
                 style="@style/AlphabetLetterTextView"
                 android:onClick="onClick"
                 android:tag="R"
                 android:text="R" />
 
-            <TextView
+            <com.example.eweli.sm_projekt.LetterTextView
                 style="@style/AlphabetLetterTextView"
                 android:onClick="onClick"
                 android:tag="S"
                 android:text="S" />
 
-            <TextView
+            <com.example.eweli.sm_projekt.LetterTextView
+                style="@style/AlphabetLetterTextView"
+                android:onClick="onClick"
+                android:tag="Ś"
+                android:text="Ś" />
+
+
+            <com.example.eweli.sm_projekt.LetterTextView
                 style="@style/AlphabetLetterTextView"
                 android:onClick="onClick"
                 android:tag="T"
                 android:text="T" />
 
-            <TextView
+            <com.example.eweli.sm_projekt.LetterTextView
                 style="@style/AlphabetLetterTextView"
                 android:onClick="onClick"
                 android:tag="U"
                 android:text="U" />
 
-            <TextView
+            <com.example.eweli.sm_projekt.LetterTextView
                 style="@style/AlphabetLetterTextView"
-                android:layout_column="1"
                 android:onClick="onClick"
                 android:tag="V"
                 android:text="V" />
 
-            <TextView
+            <com.example.eweli.sm_projekt.LetterTextView
                 style="@style/AlphabetLetterTextView"
                 android:onClick="onClick"
                 android:tag="W"
                 android:text="W" />
 
-            <TextView
+            <com.example.eweli.sm_projekt.LetterTextView
                 style="@style/AlphabetLetterTextView"
                 android:onClick="onClick"
                 android:tag="X"
                 android:text="X" />
 
-            <TextView
+            <com.example.eweli.sm_projekt.LetterTextView
                 style="@style/AlphabetLetterTextView"
                 android:onClick="onClick"
                 android:tag="Y"
                 android:text="Y" />
 
-            <TextView
+            <com.example.eweli.sm_projekt.LetterTextView
                 style="@style/AlphabetLetterTextView"
                 android:onClick="onClick"
                 android:tag="Z"
                 android:text="Z" />
+
+            <com.example.eweli.sm_projekt.LetterTextView
+                style="@style/AlphabetLetterTextView"
+                android:onClick="onClick"
+                android:tag="Ź"
+                android:text="Ź" />
+
+            <com.example.eweli.sm_projekt.LetterTextView
+                style="@style/AlphabetLetterTextView"
+                android:onClick="onClick"
+                android:tag="Ż"
+                android:text="Ż" />
+
 
 
         </GridLayout>
