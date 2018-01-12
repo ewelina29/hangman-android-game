@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name" translatable="false">Quiz Yourself</string>
+    <string name="start_game">START GAME</string>
+    <string name="settings">SETTINGS</string>
+    <string name="about">ABOUT</string>
+    <string name="exit">EXIT</string>
+    <string name="game_name" translatable="false">Infinite Maze</string>
+    <string name="gameModeSelect">Select game mode</string>
+    <string name="relaxMode">Relax</string>
+    <string name="timeMode">Time Runner</string>
+    <string name="literature">LITERATURE</string>
+    <string name="history">HISTORY</string>
+    <string name="maths">MATHS</string>
+    <string name="TheWorldWarIIStartedIn">The World War II started in:</string>
+    <string name="year1939">1939</string>
+    <string name="year1945">1945</string>
+    <string name="year1918">1918</string>
+    <string name="year1914">1914</string>
+    <string name="TheNameOfTheFirstPolishKingWas">The name of the first Polish king was:</string>
+    <string name="Boleslaw">Bolesław</string>
+    <string name="Mieszko">Mieszko</string>
+    <string name="Wladyslaw">Wladyslaw</string>
+    <string name="Kazimierz">Kazimierz</string>
+    <string name="WhoWroteHamlet">Who wrote Hamlet?</string>
+    <string name="Shakespeare">William Shakespeare</string>
+    <string name="Tolkien" translatable="false">J. R. R. Tolkien</string>
+    <string name="StephenKing" translatable="false">Stephen King</string>
+    <string name="Sophocles">Sophocles</string>
+    <string name="difficulty_level">Difficulty Level</string>
+    <string name="kindergarten">Kindergarten</string>
+    <string name="university">University</string>
+    <string name="soundSettings">Sound</string>
+    <string name="Off">Off</string>
+    <string name="On">On</string>
+    <string name="currentLevel">currentLevel</string>
+</resources>

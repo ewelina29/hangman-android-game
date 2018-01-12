@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about">O GRZE</string>
+    <string name="exit">KONIEC</string>
+    <string name="settings">USTAWIENIA</string>
+    <string name="start_game">GRAJ</string>
+    <string name="gameModeSelect">Wybierz tryb gry</string>
+    <string name="relaxMode">Relaks</string>
+    <string name="timeMode">Wyścig z czasem</string>
+    <string name="history">HISTORIA</string>
+    <string name="literature">LITERATURA</string>
+    <string name="maths">MATEMATYKA</string>
+    <string name="year1939">1939</string>
+    <string name="year1945">1945</string>
+    <string name="year1918">1918</string>
+    <string name="year1914">1914</string>
+    <string name="TheNameOfTheFirstPolishKingWas">Imię pierwszego króla POlski to:</string>
+    <string name="Boleslaw">Bolesław</string>
+    <string name="Mieszko">Mieszko</string>
+    <string name="Wladyslaw">Wladyslaw</string>
+    <string name="Kazimierz">Kazimierz</string>
+    <string name="TheWorldWarIIStartedIn">II wojna światowa wybuchła w roku:</string>
+    <string name="Shakespeare">William Szekspir</string>
+    <string name="Sophocles">Sofokles</string>
+    <string name="WhoWroteHamlet">Kto był autorem Hamleta?</string>
+</resources>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:scaleType="centerCrop"
+        android:scaleX="0.8"
+        android:scaleY="1.5"
+        android:src="@drawable/text_background">
+
+    </ImageView>
+
+    <TextView
+        android:id="@+id/textView"
+        style="@style/MenuTheme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/imageView"
+        android:layout_centerHorizontal="true"
+        android:text="@string/difficulty_level" />
+
+    <RadioGroup
+        android:id="@+id/levelRadioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView"
+        android:layout_alignTop="@+id/imageView"
+        android:layout_marginTop="59dp">
+
+        <RadioButton
+            android:id="@+id/kindergartenLevel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/colorPrimary"
+            android:layoutDirection="ltr"
+            android:checked="true"
+            android:paddingBottom="5dp"
+            android:textSize="20sp" />
+
+
+        <RadioButton
+            android:id="@+id/universityLevel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:buttonTint="@color/colorPrimary"
+            android:layoutDirection="rtl" />
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignTop="@+id/levelRadioGroup"
+        android:layout_toEndOf="@+id/levelRadioGroup"
+        android:gravity="center_vertical"
+        android:text="@string/kindergarten"
+        android:textColor="#000000"
+        android:textSize="20sp" />
+
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/levelRadioGroup"
+        android:layout_alignStart="@+id/textView3"
+        android:gravity="center_vertical"
+        android:text="@string/university"
+        android:textColor="#000000"
+        android:textSize="20sp" />
+
+
+</RelativeLayout>
