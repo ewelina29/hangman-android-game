@@ -75,13 +75,13 @@ public class MainMenuFragment extends Fragment implements View.OnClickListener {
                 String currentLevel = sharedPref.getString(getString(R.string.currentLevel), getString(R.string.kindergarten));
                 */
 
-                String[] gameModes = {getString(R.string.relaxMode), getString(R.string.timeMode)};
+                String[] gameModes = {getString(R.string.singleGame), getString(R.string.duelGame)};
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setTitle(getString(R.string.gameModeSelect));
                 builder.setItems(gameModes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int item) {
                         Intent game = new Intent(getActivity(), GameActivity.class);
-                        game.putExtra("mode", item);
+                        game.putExtra("mode", item+1);
                         startActivity(game);
                     }
                 });

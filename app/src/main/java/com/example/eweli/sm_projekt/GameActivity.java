@@ -1,49 +1,39 @@
 package com.example.eweli.sm_projekt;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.GridLayout;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
-//import com.android.volley.Request;
-//import com.android.volley.Response;
-//import com.android.volley.VolleyError;
-//import com.android.volley.toolbox.JsonObjectRequest;
-//import com.android.volley.toolbox.StringRequest;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestHandle;
+import com.example.eweli.sm_projekt.database.DatabaseCrud;
 
-//import com.example.eweli.sm_projekt.database.DatabaseCrud;
-
-import org.json.JSONObject;
-
+import java.io.FileReader;
 import java.util.List;
-import java.util.Locale;
 import java.util.Random;
 
-import static com.example.eweli.sm_projekt.MenuActivity.PREFERENCES_NAME;
+import static com.example.eweli.sm_projekt.R.id.answerLabel;
+import static com.example.eweli.sm_projekt.R.id.parent;
 
-/**
- * Created by eweli on 01.01.2018.
- */
-
-public class GameActivity extends AppCompatActivity implements /*SensorEventListener,*/ View.OnClickListener {
+public class GameActivity extends AppCompatActivity implements View.OnClickListener { //implements SensorEventListener,{
 
     public static int categoriesCounter = Category.getCount();
     public final String[] CATEGORIES = Category.getCategories();
@@ -53,361 +43,357 @@ public class GameActivity extends AppCompatActivity implements /*SensorEventList
     private float mAccel; // acceleration apart from gravity
     private float mAccelCurrent; // current acceleration including gravity
     private float mAccelLast; // last acceleration including gravity
-    private List<Question> currentCategoryQuestions;
-    private TextView currentCorrectAnswer;
+    private List<Word> currentCategoryWords;
 
-    private TextView question;
-    private TextView answer1;
-    private TextView answer2;
-    private TextView answer3;
-    private TextView answer4;
-    private TextView timer;
-    private String currentLevel;
-    private AsyncHttpClient client;
-
-    private GridLayout gameLayout;
-    AlertDialog.Builder catDialog;
-    AlertDialog alert;
+    private LetterTextView wordText;
+    private LetterTextView resultText;
+    private LetterTextView nextWordRedirect;
+    private LetterTextView newCategoryRedirect;
+    private LetterTextView menuRedirect;
+    private FrameLayout alphabetFrame;
+    private FrameLayout summaryFrame;
+    private FrameLayout hangmanImage;
+    private GridLayout alphabetGrid;
+    private AlertDialog.Builder catDialog;
+    private AlertDialog alert;
     private Random rand = new Random();
-    private String SESSION_TOKEN;
+    private int baseFontColor;
 
-//    DatabaseCrud database;
+    private DatabaseCrud database;
+    private String currentWord;
+    private int errorsCounter;
+    private int gameMode;
 
     private boolean showCategoryChooser = true;
 
-    private static final long START_TIME_IN_MILLIS = 10000;
 
-    private CountDownTimer mCountDownTimer;
+    private SensorManager mSensorManager;
+    private Sensor mAccelerometer;
+    private ShakeDetector mShakeDetector;
 
-    private boolean mTimerRunning;
+    public GameActivity game;
 
-    private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         getSupportActionBar().hide();
-
         setContentView(R.layout.activity_game);
 
+        Intent intent = getIntent();
+        gameMode = intent.getIntExtra("mode", 1);
+        Log.d("MODE", String.valueOf(gameMode));
 
-        prepareSensors();
         prepareContent();
-//        requestForSessionToken();
 
-        //if (showCategoryChooser) {
-          //  showCategoryChooser();
-        //}
+        if (gameMode == 1) {
+            prepareSensors();
 
-    }
-
-//    private void requestForSessionToken() {
-//        String url = "http://opentdb.com/api_category.php";
-////        String url = "http://httpbin.org/get?param1=hello";
-////        JsonObjectRequest jsObjRequest = new JsonObjectRequest
-//
-////
-//        RequestHandle requestHandle = client.get(url,
-//                new JsonHttpResponseHandler() {
-//
-//                    @Override
-//                    public void onSuccess(JSONObject jsonObject) {
-//                       // SESSION_TOKEN = jsonObject.optString("token");
-//                        Toast.makeText(getApplicationContext(), jsonObject.toString(), Toast.LENGTH_SHORT).show();
-//                        Log.d("JSON", jsonObject.toString());
-//
-//                    }
-//
-//                    @Override
-//                    public void onFailure(int statusCode, Throwable throwable, JSONObject error) {
-//                        Toast.makeText(getApplicationContext(), "wE CANNOT CONNECT TO THE API",Toast.LENGTH_SHORT).show();
-//                        Log.e("Error: ", statusCode + " " + throwable.getMessage());
-//                    }
-//                });
-//
-//
-////        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
-////                new Response.Listener<JSONObject>()
-////                {
-////                    @Override
-////                    public void onResponse(JSONObject response) {
-////                        // display response
-//////                        String token = response.optString("token");
-////                        Log.d("resssssss", response.toString());
-//////                        Log.d("Response", token);
-////                        Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
-////
-////                    }
-////                },
-////                new Response.ErrorListener()
-////                {
-////                    @Override
-////                    public void onErrorResponse(VolleyError error) {
-////                        Log.d("Error.Response", error.toString());
-////                    }
-////                }
-////    );
-
-// Request a string response from the provided URL.
-//        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-//                new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-//                        Log.d("RESPONSE", response);
-//                        SESSION_TOKEN = response;
-//                        Toast.makeText(getApplicationContext(), SESSION_TOKEN, Toast.LENGTH_SHORT).show();
-//                        // Display the first 500 characters of the response string.
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                                        Toast.makeText(getApplicationContext(), "wE CANNOT CONNECT TO THE API",Toast.LENGTH_SHORT).show();
-//
-//            }
-//        });
-
-//    }
-
-    private void prepareQuestions() {
-
-        if (currentCategoryQuestions.isEmpty()){
-            Toast.makeText(getApplicationContext(), "No more questions", Toast.LENGTH_SHORT).show();
-        }
-        else {
-
-            int currentQuestionNr = rand.nextInt(currentCategoryQuestions.size());
-            Question currentQuestion = currentCategoryQuestions.get(currentQuestionNr);
-
-            question.setText(getStringResourceByName(currentQuestion.getQuestion()));
-            int correctAnswerPlace = rand.nextInt(4) + 1;
-            if (correctAnswerPlace == 1) {
-                answer1.setText(getStringResourceByName(currentQuestion.getCorrectAnswer()));
-                currentCorrectAnswer = answer1;
-                answer2.setText(getStringResourceByName(currentQuestion.getIncorrectAnswer1()));
-                answer3.setText(getStringResourceByName(currentQuestion.getIncorrectAnswer2()));
-                answer4.setText(getStringResourceByName(currentQuestion.getIncorrectAnswer3()));
-            } else if (correctAnswerPlace == 2) {
-                answer2.setText(getStringResourceByName(currentQuestion.getCorrectAnswer()));
-                currentCorrectAnswer = answer2;
-                answer1.setText(getStringResourceByName(currentQuestion.getIncorrectAnswer1()));
-                answer3.setText(getStringResourceByName(currentQuestion.getIncorrectAnswer2()));
-                answer4.setText(getStringResourceByName(currentQuestion.getIncorrectAnswer3()));
-            } else if (correctAnswerPlace == 3) {
-                answer3.setText(getStringResourceByName(currentQuestion.getCorrectAnswer()));
-                currentCorrectAnswer = answer3;
-                answer1.setText(getStringResourceByName(currentQuestion.getIncorrectAnswer1()));
-                answer2.setText(getStringResourceByName(currentQuestion.getIncorrectAnswer2()));
-                answer4.setText(getStringResourceByName(currentQuestion.getIncorrectAnswer3()));
-            } else {
-                answer4.setText(getStringResourceByName(currentQuestion.getCorrectAnswer()));
-                currentCorrectAnswer = answer4;
-                answer1.setText(getStringResourceByName(currentQuestion.getIncorrectAnswer1()));
-                answer2.setText(getStringResourceByName(currentQuestion.getIncorrectAnswer2()));
-                answer3.setText(getStringResourceByName(currentQuestion.getIncorrectAnswer3()));
+            if (showCategoryChooser) {
+                showCategoryChooser();
             }
-
-            currentCategoryQuestions.remove(currentQuestion);
-            startTimer();
-
+        } else {
+            showDuelStartDialog();
         }
-
-
-
 
     }
 
+    private void showDuelStartDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setTitle(getString(R.string.gameModeSelect));
+       // builder.setMessage("Player 1");
+        View rootView = View.inflate(this, R.layout.duel_input_name, null);
+        // Set up the input
+        final EditText input = (EditText) rootView.findViewById(R.id.firstPlayerName);
+        builder.setView(rootView);
+
+        AlertDialog alert = builder.create();
+
+        alert.show();
+        alert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        //alert.show();
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Add the following line to register the Session Manager Listener onResume
+        if (gameMode == 1)
+            mSensorManager.registerListener(mShakeDetector, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
+    }
+
+    @Override
+    public void onPause() {
+        if (gameMode == 1)
+
+            // Add the following line to unregister the Sensor Manager onPause
+            mSensorManager.unregisterListener(mShakeDetector);
+        super.onPause();
+    }
+
+
+    private void resetGameScreen() {
+        summaryFrame.setVisibility(View.INVISIBLE);
+        alphabetFrame.setVisibility(View.VISIBLE);
+        int counter = alphabetGrid.getChildCount();
+        for (int i = 0; i < counter; i++) {
+            LetterTextView tmpLetter = (LetterTextView) alphabetGrid.getChildAt(i);
+            tmpLetter.setTextColor(baseFontColor);
+        }
+        errorsCounter = 0;
+        hangmanImage.setBackground(null);
+
+    }
 
     private void prepareContent() {
-//        question = (TextView) findViewById(R.id.question);
-//        answer1 = (TextView) findViewById(R.id.answer1);
-//        answer2 = (TextView) findViewById(R.id.answer2);
-//        answer3 = (TextView) findViewById(R.id.answer3);
-//        answer4 = (TextView) findViewById(R.id.answer4);
-//        gameLayout = (GridLayout) findViewById(R.id.game_layout);
-//        timer = (TextView) findViewById(R.id.timer);
-//
-//        answer1.setOnClickListener(this);
-//        answer2.setOnClickListener(this);
-//        answer3.setOnClickListener(this);
-//        answer4.setOnClickListener(this);
+        game = this;
+        database = new DatabaseCrud(getApplicationContext());
+        baseFontColor = Color.rgb(10, 10, 10);
 
-        currentLevel = MenuActivity.getCurrentLevel();
-        client = new AsyncHttpClient();
+        wordText = (LetterTextView) findViewById(R.id.answerLabel);
+        resultText = (LetterTextView) findViewById(R.id.resultText);
+        nextWordRedirect = (LetterTextView) findViewById(R.id.nextWordRedirect);
+        newCategoryRedirect = (LetterTextView) findViewById(R.id.newCategoryRedirect);
+        menuRedirect = (LetterTextView) findViewById(R.id.menuRedirect);
+
+        hangmanImage = (FrameLayout) findViewById(R.id.hangmanImage);
+        alphabetFrame = (FrameLayout) findViewById(R.id.alphabetFrame);
+        summaryFrame = (FrameLayout) findViewById(R.id.summaryFrame);
+        alphabetGrid = (GridLayout) findViewById(R.id.alphabetGrid);
+
+        nextWordRedirect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetGameScreen();
+                prepareNewWord();
+
+            }
+        });
+
+        newCategoryRedirect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideFrames();
+                resetGameScreen();
+                showCategoryChooser = true;
+                showCategoryChooser();
+            }
+        });
+
+        menuRedirect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent menu = new Intent(game, MenuActivity.class);
+                startActivity(menu);
+            }
+        });
 
         catDialog = new AlertDialog.Builder(this);
 
+        errorsCounter = 0;
+
     }
 
+    private void startNewLevel(){
+        alphabetFrame.setVisibility(View.VISIBLE);
+        wordText.setVisibility(View.VISIBLE);
+        hangmanImage.setVisibility(View.VISIBLE);
+    }
+
+    private void hideFrames(){
+        alphabetFrame.setVisibility(View.INVISIBLE);
+        wordText.setVisibility(View.INVISIBLE);
+        hangmanImage.setVisibility(View.INVISIBLE);
+        summaryFrame.setVisibility(View.INVISIBLE);
+    }
+
+    private void prepareNewWord() {
+
+        if (currentCategoryWords.isEmpty()) {
+            prepareWordsList();
+            Toast.makeText(getApplicationContext(), "No more words", Toast.LENGTH_SHORT).show();
+        }
+
+
+        int currentWordNr = rand.nextInt(currentCategoryWords.size());
+        currentWord = currentCategoryWords.get(currentWordNr).getWord().toUpperCase();
+        String startText = "";
+
+        for (int i = 0; i < currentWord.length(); i++) {
+            startText += "_";
+        }
+        wordText.setText(startText);
+        Log.d("CURRENT WORD - ", currentWord);
+        currentCategoryWords.remove(currentWord);
+
+    }
+
+
     private void prepareSensors() {
-        mAccel = 0.00f;
-        mAccelCurrent = SensorManager.GRAVITY_EARTH;
-        mAccelLast = SensorManager.GRAVITY_EARTH;
-        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-//        sensorManager.registerListener(this,
-//                accelerometer,
-//                SensorManager.SENSOR_DELAY_GAME);
+// ShakeDetector initialization
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        mAccelerometer = mSensorManager
+                .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mShakeDetector = new ShakeDetector();
+        mShakeDetector.setOnShakeListener(new ShakeDetector.OnShakeListener() {
+
+            @Override
+            public void onShake(int count) {
+                /*
+                 * The following method, "handleShakeEvent(count):" is a stub //
+				 * method you would use to setup whatever you want done once the
+				 * device has been shook.
+				 */
+                if (showCategoryChooser) {
+                    showCategoryChooser = false;
+                    int catNr = rand.nextInt(categoriesCounter);
+                    currentCategory = CATEGORIES[catNr];
+                    alert.hide();
+                    catDialog.setMessage(getString(R.string.newCategory) + ":\n" + getStringResourceByName(currentCategory));
+                    catDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+
+//                        showCategoryChooser = false;
+                            prepareWordsList();
+                            prepareNewWord();
+                            startNewLevel();
+                        }
+                    });
+                    alert = catDialog.create();
+                    alert.show();
+                }
+            }
+        });
+
     }
 
 
     private void showCategoryChooser() {
+        catDialog = new AlertDialog.Builder(this);
+
         catDialog.setCancelable(false); // This blocks the 'BACK' button
-        catDialog.setMessage("Shake the device to choose category");
+        catDialog.setMessage(R.string.categoryChooseMsg);
 
         alert = catDialog.create();
         alert.show();
     }
 
-    /*
-    @Override
-    public void onSensorChanged(SensorEvent event) {
-        if (showCategoryChooser) {
-            float x = event.values[0];
-            float y = event.values[1];
-            float z = event.values[2];
-            mAccelLast = mAccelCurrent;
-            mAccelCurrent = (float) Math.sqrt((double) (x * x + y * y + z * z));
-            float delta = mAccelCurrent - mAccelLast;
-            mAccel = mAccel * 0.9f + delta; // perform low-cut filter
 
-            if (mAccel > 2) {
-                int catNr = rand.nextInt(categoriesCounter);
-                currentCategory = CATEGORIES[catNr];
-                alert.hide();
-                catDialog.setMessage("New category: \n" + currentCategory);
-                catDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        showCategoryChooser = false;
-                        prepareCategoryQuestionsList();
-
-                        //prepareQuestions();
-                    }
-                });
-                alert = catDialog.create();
-                alert.show();
-
-
-            }
+    private void prepareWordsList() {
+//        gameLayout.setVisibility(View.VISIBLE);
+        database.open();
+        if (currentCategory.equals(Category.ALL.name())) {
+            currentCategoryWords = database.getAllWords();
+        } else {
+            currentCategoryWords = database.getWordsByCategory(currentCategory);
 
         }
-
-    }*/
-
-
-    private void prepareCategoryQuestionsList() {
-        gameLayout.setVisibility(View.VISIBLE);
-//        database.open();
-//        currentCategoryQuestions = database.getQuestionsByCategory(currentCategory);
-//        database.close();
+        database.close();
     }
 
-    /*@Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
-    }
-
-    @Override
-    protected void onPause() {
-        sensorManager.unregisterListener(this);
-        super.onPause();
-    }
-*/
-
-    private String getStringResourceByName(String aString) {
-        String packageName = getPackageName();
-        int resId = getResources().getIdentifier(aString, "string", packageName);
-        return getString(resId, null);
-    }
-
-    private void startTimer() {
-        mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 10) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                mTimeLeftInMillis = millisUntilFinished;
-                updateCountDownText();
-            }
-
-            @Override
-            public void onFinish() {
-                mTimerRunning = false;
-            }
-        }.start();
-
-        mTimerRunning = true;
-    }
-
-    private void updateCountDownText() {
-//        int minutes = (int) (mTimeLeftInMillis / 1000) / 60;
-        int seconds = (int) (mTimeLeftInMillis / 1000) % 60;
-        int hundredthsOfSecond = (int) (mTimeLeftInMillis / 10) % 100;
-
-        String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", seconds, hundredthsOfSecond);
-
-        timer.setText(timeLeftFormatted);
-    }
 
     @Override
     public void onClick(View v) {
 
-        String letterId = String.valueOf(v.getTag());
-        Log.d("ID", letterId);
-        switch (v.getId()){
-//            case R.id.answer1:
-//                Log.d("CLICK", "ANSWER 1");
-//                if (answer1 == currentCorrectAnswer){
-//                    Toast.makeText(getApplicationContext(), "Correct Answer", Toast.LENGTH_SHORT).show();
-//                }
-//                else {
-//                    Toast.makeText(getApplicationContext(), "Incorrect Answer", Toast.LENGTH_SHORT).show();
-//
-//                }
-//                prepareQuestions();
-//
-//                break;
-//            case R.id.answer2:
-//                Log.d("CLICK", "ANSWER 2");
-//                if (answer2 == currentCorrectAnswer){
-//                    Toast.makeText(getApplicationContext(), "Correct Answer", Toast.LENGTH_SHORT).show();
-//                }
-//                else {
-//                    Toast.makeText(getApplicationContext(), "Incorrect Answer", Toast.LENGTH_SHORT).show();
-//
-//                }
-//                prepareQuestions();
-//                break;
-//            case R.id.answer3:
-//                Log.d("CLICK", "ANSWER 3");
-//                if (answer3 == currentCorrectAnswer){
-//                    Toast.makeText(getApplicationContext(), "Correct Answer", Toast.LENGTH_SHORT).show();
-//                }
-//                else {
-//                    Toast.makeText(getApplicationContext(), "Incorrect Answer", Toast.LENGTH_SHORT).show();
-//
-//                }
-//
-//                prepareQuestions();
-//                break;
-//            case R.id.answer4:
-//                Log.d("CLICK", "ANSWER 4");
-//                if (answer4 == currentCorrectAnswer){
-//                    Toast.makeText(getApplicationContext(), "Correct Answer", Toast.LENGTH_SHORT).show();
-//                }
-//                else {
-//                    Toast.makeText(getApplicationContext(), "Incorrect Answer", Toast.LENGTH_SHORT).show();
-//
-//                }
-//
-//                prepareQuestions();
-//                break;
+        String letter = String.valueOf(v.getTag());
+        Log.d("ID", letter);
+        LetterTextView letterTextView = (LetterTextView) v;
+        boolean found = false;
+        for (int i = 0; i < currentWord.length(); i++) {
+            if ((String.valueOf(currentWord.charAt(i))).equals(letter)) {
+                letterTextView.setTextColor(Color.GREEN);
+                StringBuilder updatedText = new StringBuilder(wordText.getText());
+                updatedText.setCharAt(i, letter.charAt(0));
+                wordText.setText(updatedText);
+                found = true;
+            }
+
         }
+        if (!found) {
+            changeHangman();
+            letterTextView.setTextColor(Color.RED);
+
+
+        } else {
+            if (!wordText.getText().toString().contains("_")) {
+                alphabetFrame.setVisibility(View.INVISIBLE);
+                summaryFrame.setVisibility(View.VISIBLE);
+                resultText.setText(R.string.winner);
+                resultText.setTextColor(Color.GREEN);
+            }
+        }
+
+    }
+
+    private void changeHangman() {
+        errorsCounter++;
+        hangmanImage.setBackground(getDrawableResourceByName("hangman" + errorsCounter));
+
+        if (errorsCounter >= 7) {
+            wordText.setText(currentWord);
+            alphabetFrame.setVisibility(View.INVISIBLE);
+            summaryFrame.setVisibility(View.VISIBLE);
+            resultText.setText(R.string.looser);
+            resultText.setTextColor(Color.RED);
+        }
+    }
+
+//
+//    @Override
+//    public void onSensorChanged(SensorEvent event) {
+//        if (showCategoryChooser) {
+//            float x = event.values[0];
+//            float y = event.values[1];
+//            float z = event.values[2];
+//            mAccelLast = mAccelCurrent;
+//            mAccelCurrent = (float) Math.sqrt((double) (x * x + y * y + z * z));
+//            float delta = mAccelCurrent - mAccelLast;
+//            mAccel = mAccel * 0.9f + delta; // perform low-cut filter
+//
+//            if (mAccel > 12) {
+//                showCategoryChooser = false;
+//                int catNr = rand.nextInt(categoriesCounter);
+//                currentCategory = CATEGORIES[catNr];
+//                alert.hide();
+//                catDialog.setMessage(getString(R.string.newCategory) + ":\n" + getStringResourceByName(currentCategory));
+//                catDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+////                        showCategoryChooser = false;
+//                        prepareWordsList();
+//                        prepareNewWord();
+//                    }
+//                });
+//                alert = catDialog.create();
+//                alert.show();
+//
+//
+//            }
+//
+//        }
+//
+//    }
+//
+//    @Override
+//    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+//
+//    }
+
+
+    private String getStringResourceByName(String aString) {
+        String packageName = getPackageName();
+        int resId = getResources().getIdentifier(aString, "string", packageName);
+
+        return getString(resId, null);
+    }
+
+    private Drawable getDrawableResourceByName(String aString) {
+        String packageName = getPackageName();
+        int resId = getResources().getIdentifier(aString, "drawable", packageName);
+
+        return getDrawable(resId);
     }
 }

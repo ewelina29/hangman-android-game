@@ -1,12 +1,11 @@
 package com.example.eweli.sm_projekt;
 
-/**
- * Created by eweli on 02.01.2018.
- */
 
 public enum Category {
-    HISTORY,
-    LITERATURE;
+    GEOGRAPHY,
+    ANIMALS,
+    FOOD,
+    ALL;
 
 
     public static int getCount() {

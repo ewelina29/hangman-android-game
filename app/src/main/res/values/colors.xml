@@ -5,4 +5,5 @@
     <color name="colorAccent">#5dbc3d</color>
     <color name="transparent">@android:color/transparent</color>
     <color name="gameTitle">#f4f3f3</color>
+    <color name="baseFontColor">#251616</color>
 </resources>

@@ -23,8 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/imageView"
-        android:layout_centerHorizontal="true"
-        android:text="@string/difficulty_level" />
+        android:layout_centerHorizontal="true"/>
 
     <RadioGroup
         android:id="@+id/levelRadioGroup"
@@ -62,7 +61,6 @@
         android:layout_alignTop="@+id/levelRadioGroup"
         android:layout_toEndOf="@+id/levelRadioGroup"
         android:gravity="center_vertical"
-        android:text="@string/kindergarten"
         android:textColor="#000000"
         android:textSize="20sp" />
 
@@ -70,12 +68,10 @@
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
-
         android:layout_height="30dp"
         android:layout_alignBottom="@+id/levelRadioGroup"
         android:layout_alignStart="@+id/textView3"
         android:gravity="center_vertical"
-        android:text="@string/university"
         android:textColor="#000000"
         android:textSize="20sp" />
 
