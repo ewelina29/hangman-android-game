@@ -13,12 +13,14 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ButtonBarLayout;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
@@ -106,7 +108,15 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         View rootView = View.inflate(this, R.layout.duel_input_name, null);
         // Set up the input
         final EditText input = (EditText) rootView.findViewById(R.id.firstPlayerName);
+        final Button saveBtn = (Button) rootView.findViewById(R.id.saveButton);
         builder.setView(rootView);
+        builder.setPositiveButton("SAVE", new DialogInterface.OnClickListener(){
+
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
 
         AlertDialog alert = builder.create();
 
