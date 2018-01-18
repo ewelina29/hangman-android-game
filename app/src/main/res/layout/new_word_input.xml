@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/text_background">
+
+
+
+    <com.example.eweli.sm_projekt.LetterTextView
+        android:id="@+id/newWordDialogMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:letterSpacing="0.2"
+        android:textSize="20sp"/>
+    <EditText
+        android:id="@+id/newWord" android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:textSize="20sp"
+        android:maxLines="1"
+        android:maxLength="10"
+        android:imeOptions="actionDone"
+        android:maxEms="1"
+        android:inputType="textCapCharacters"
+        android:nextFocusDown="@+id/secondPlayerName"
+        android:hint="@string/your_word"
+
+
+
+        />
+
+
+
+
+
+</LinearLayout>

@@ -1,6 +1,8 @@
 package com.example.eweli.sm_projekt;
 
 import android.app.Dialog;
+import android.app.Fragment;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,6 +26,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.eweli.sm_projekt.database.DatabaseCrud;
@@ -33,6 +36,7 @@ import java.util.List;
 import java.util.Random;
 
 import static com.example.eweli.sm_projekt.R.id.answerLabel;
+import static com.example.eweli.sm_projekt.R.id.firstPlayerName;
 import static com.example.eweli.sm_projekt.R.id.parent;
 
 public class GameActivity extends AppCompatActivity implements View.OnClickListener { //implements SensorEventListener,{
@@ -50,21 +54,40 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private LetterTextView wordText;
     private LetterTextView resultText;
     private LetterTextView nextWordRedirect;
+    private LetterTextView duetNextWordRedirect;
     private LetterTextView newCategoryRedirect;
     private LetterTextView menuRedirect;
+    private LetterTextView infoLabel;
+    private LetterTextView pointsLabel;
+
     private FrameLayout alphabetFrame;
     private FrameLayout summaryFrame;
     private FrameLayout hangmanImage;
+    private FrameLayout infoFrame;
+    private FrameLayout pointsFrame;
+    private FrameLayout duetSummaryFrame;
+
+
     private GridLayout alphabetGrid;
     private AlertDialog.Builder catDialog;
     private AlertDialog alert;
     private Random rand = new Random();
-    private int baseFontColor;
-
     private DatabaseCrud database;
-    private String currentWord;
+
     private int errorsCounter;
     private int gameMode;
+    private int baseFontColor;
+    private int allWordsCounter;
+    private int correctWordsCounter;
+    private int firstPlayerPoints;
+    private int secondPlayerPoints;
+    private int currentPlayer;
+    private int targetWordsNumber;
+
+    private String currentWord;
+    private String firstPlayer;
+    private String secondPlayer;
+
 
     private boolean showCategoryChooser = true;
 
@@ -103,44 +126,66 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     private void showDuelStartDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setTitle(getString(R.string.gameModeSelect));
-       // builder.setMessage("Player 1");
         View rootView = View.inflate(this, R.layout.duel_input_name, null);
-        // Set up the input
-        final EditText input = (EditText) rootView.findViewById(R.id.firstPlayerName);
-        final Button saveBtn = (Button) rootView.findViewById(R.id.saveButton);
-        builder.setView(rootView);
-        builder.setPositiveButton("SAVE", new DialogInterface.OnClickListener(){
+
+        final EditText firstPlayerName = (EditText) rootView.findViewById(R.id.firstPlayerName);
+        final EditText secondPlayerName = (EditText) rootView.findViewById(R.id.secondPlayerName);
+        final EditText targetWords = (EditText) rootView.findViewById(R.id.targetRoundsNumber);
+
+        builder.setPositiveButton("SAVE", new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                firstPlayer = firstPlayerName.getText().toString();
+                secondPlayer = secondPlayerName.getText().toString();
+                targetWordsNumber = Integer.parseInt(targetWords.getText().toString()) * 2;
 
+                showWordInput();
             }
         });
+        builder.setView(rootView);
 
         AlertDialog alert = builder.create();
 
         alert.show();
         alert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        //alert.show();
+
 
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        // Add the following line to register the Session Manager Listener onResume
-        if (gameMode == 1)
-            mSensorManager.registerListener(mShakeDetector, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
-    }
+    private void showWordInput() {
+        targetWordsNumber--;
+        if (targetWordsNumber > 0) {
 
-    @Override
-    public void onPause() {
-        if (gameMode == 1)
 
-            // Add the following line to unregister the Sensor Manager onPause
-            mSensorManager.unregisterListener(mShakeDetector);
-        super.onPause();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            View rootView = View.inflate(this, R.layout.new_word_input, null);
+
+            final EditText newWord = (EditText) rootView.findViewById(R.id.newWord);
+            final LetterTextView message = (LetterTextView) rootView.findViewById(R.id.newWordDialogMessage);
+            message.setText(getDuelMessage());
+            builder.setPositiveButton("SAVE", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    currentWord = newWord.getText().toString();
+                    Log.d("CURRENT", currentWord);
+                    startNewDuelLevel();
+
+                }
+            });
+            builder.setView(rootView);
+
+            AlertDialog alert = builder.create();
+
+            alert.show();
+            alert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
+
+
+        } else {
+            summaryFrame.setVisibility(View.VISIBLE);
+        }
     }
 
 
@@ -165,12 +210,19 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         wordText = (LetterTextView) findViewById(R.id.answerLabel);
         resultText = (LetterTextView) findViewById(R.id.resultText);
         nextWordRedirect = (LetterTextView) findViewById(R.id.nextWordRedirect);
+        duetNextWordRedirect = (LetterTextView) findViewById(R.id.duelNextWordRedirect);
         newCategoryRedirect = (LetterTextView) findViewById(R.id.newCategoryRedirect);
         menuRedirect = (LetterTextView) findViewById(R.id.menuRedirect);
+        infoLabel = (LetterTextView) findViewById(R.id.infoLabel);
+        pointsLabel = (LetterTextView) findViewById(R.id.pointsLabel);
 
         hangmanImage = (FrameLayout) findViewById(R.id.hangmanImage);
         alphabetFrame = (FrameLayout) findViewById(R.id.alphabetFrame);
         summaryFrame = (FrameLayout) findViewById(R.id.summaryFrame);
+        infoFrame = (FrameLayout) findViewById(R.id.infoFrame);
+        pointsFrame = (FrameLayout) findViewById(R.id.pointsFrame);
+        duetSummaryFrame = (FrameLayout) findViewById(R.id.duetSummaryFrame);
+
         alphabetGrid = (GridLayout) findViewById(R.id.alphabetGrid);
 
         nextWordRedirect.setOnClickListener(new View.OnClickListener() {
@@ -200,19 +252,64 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+        duetNextWordRedirect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showWordInput();
+            }
+        });
+
         catDialog = new AlertDialog.Builder(this);
 
         errorsCounter = 0;
+        allWordsCounter = 0;
+        correctWordsCounter = 0;
+        firstPlayerPoints = 0;
+        secondPlayerPoints = 0;
+        currentPlayer = 1;
 
     }
 
-    private void startNewLevel(){
+    private void changePlayer() {
+        if (currentPlayer == 1) {
+            currentPlayer = 2;
+        } else currentPlayer = 1;
+    }
+
+    private void startNewLevel() {
         alphabetFrame.setVisibility(View.VISIBLE);
         wordText.setVisibility(View.VISIBLE);
         hangmanImage.setVisibility(View.VISIBLE);
+        infoFrame.setVisibility(View.VISIBLE);
+        pointsFrame.setVisibility(View.VISIBLE);
+        infoLabel.setText(getStringResourceByName(currentCategory));
+        updatePoints();
+
+
     }
 
-    private void hideFrames(){
+    private void startNewDuelLevel(){
+        alphabetFrame.setVisibility(View.VISIBLE);
+        wordText.setVisibility(View.VISIBLE);
+        duetSummaryFrame.setVisibility(View.INVISIBLE);
+        hangmanImage.setVisibility(View.VISIBLE);
+        infoFrame.setVisibility(View.VISIBLE);
+        pointsFrame.setVisibility(View.VISIBLE);
+        infoLabel.setText(getCurrentPlayerName());
+
+        hangmanImage.setBackground(null);
+
+        String startText = "";
+
+        for (int i = 0; i < currentWord.length(); i++) {
+            startText += "_";
+        }
+        wordText.setText(startText);
+
+//        infoLabel.setText(getStringResourceByName(currentCategory));
+    }
+
+    private void hideFrames() {
         alphabetFrame.setVisibility(View.INVISIBLE);
         wordText.setVisibility(View.INVISIBLE);
         hangmanImage.setVisibility(View.INVISIBLE);
@@ -333,9 +430,32 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 summaryFrame.setVisibility(View.VISIBLE);
                 resultText.setText(R.string.winner);
                 resultText.setTextColor(Color.GREEN);
+                if (gameMode == 1) {
+                    correctWordsCounter++;
+                    allWordsCounter++;
+                    updatePoints();
+                } else {
+                    updateDuetPoints();
+                    hideFrames();
+                    changePlayer();
+                    duetSummaryFrame.setVisibility(View.VISIBLE);
+
+//                    showWordInput();
+
+                }
             }
         }
 
+    }
+
+    private void updateDuetPoints() {
+        if (currentPlayer == 1) {
+            firstPlayerPoints++;
+        } else secondPlayerPoints++;
+    }
+
+    private void updatePoints() {
+        pointsLabel.setText(correctWordsCounter + " / " + allWordsCounter);
     }
 
     private void changeHangman() {
@@ -348,49 +468,20 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             summaryFrame.setVisibility(View.VISIBLE);
             resultText.setText(R.string.looser);
             resultText.setTextColor(Color.RED);
+
+            if (gameMode == 1) {
+
+                allWordsCounter++;
+                updatePoints();
+            } else {
+                hideFrames();
+                changePlayer();
+                duetSummaryFrame.setVisibility(View.VISIBLE);
+            }
+
         }
     }
 
-//
-//    @Override
-//    public void onSensorChanged(SensorEvent event) {
-//        if (showCategoryChooser) {
-//            float x = event.values[0];
-//            float y = event.values[1];
-//            float z = event.values[2];
-//            mAccelLast = mAccelCurrent;
-//            mAccelCurrent = (float) Math.sqrt((double) (x * x + y * y + z * z));
-//            float delta = mAccelCurrent - mAccelLast;
-//            mAccel = mAccel * 0.9f + delta; // perform low-cut filter
-//
-//            if (mAccel > 12) {
-//                showCategoryChooser = false;
-//                int catNr = rand.nextInt(categoriesCounter);
-//                currentCategory = CATEGORIES[catNr];
-//                alert.hide();
-//                catDialog.setMessage(getString(R.string.newCategory) + ":\n" + getStringResourceByName(currentCategory));
-//                catDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.dismiss();
-////                        showCategoryChooser = false;
-//                        prepareWordsList();
-//                        prepareNewWord();
-//                    }
-//                });
-//                alert = catDialog.create();
-//                alert.show();
-//
-//
-//            }
-//
-//        }
-//
-//    }
-//
-//    @Override
-//    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-//
-//    }
 
 
     private String getStringResourceByName(String aString) {
@@ -406,4 +497,34 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         return getDrawable(resId);
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Add the following line to register the Session Manager Listener onResume
+        if (gameMode == 1)
+            mSensorManager.registerListener(mShakeDetector, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
+    }
+
+    @Override
+    public void onPause() {
+        if (gameMode == 1)
+
+            // Add the following line to unregister the Sensor Manager onPause
+            mSensorManager.unregisterListener(mShakeDetector);
+        super.onPause();
+    }
+
+    public String getDuelMessage() {
+        if (currentPlayer == 1) {
+            return firstPlayer + " -> " + secondPlayer;
+        } else return secondPlayer + " -> " + firstPlayer;
+    }
+
+    public String getCurrentPlayerName() {
+        if (currentPlayer == 1)
+            return firstPlayer;
+        else return secondPlayer;
+    }
 }
+
