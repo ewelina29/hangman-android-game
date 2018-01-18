@@ -67,6 +67,21 @@
 
     </style>
 
+    <style name="InfoLabelView">
+        <item name="android:layout_width">350dp</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:background">@drawable/text_background</item>
+        <item name="android:letterSpacing">0.3</item>
+        <item name="android:maxLength">21</item>
+        <item name="android:textAllCaps">true</item>
+
+    </style>
+
     <style name="RedirectButton">
         <item name="android:clickable">true</item>
         <item name="android:layout_height">wrap_content</item>

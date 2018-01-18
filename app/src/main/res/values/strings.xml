@@ -68,4 +68,6 @@
     <string name="menu">MENU</string>
     <string name="player_1">Player 1</string>
     <string name="player_2">Player 2</string>
+    <string name="your_word">Your word</string>
+    <string name="wordsNumber">Rounds number</string>
 </resources>
