@@ -85,5 +85,8 @@
     <string name="sabre">szabla</string>
     <string name="sword">miecz</string>
     <string name="wizna">wizna</string>
+    <string name="crusade">krucjata</string>
+    <string name="crusaders">krzyżacy</string>
+    <string name="grunwald">grunwald</string>
 
 </resources>
