@@ -5,10 +5,10 @@
     <string name="about">ABOUT</string>
     <string name="exit">EXIT</string>
     <string name="game_name">Hangman</string>
-    <string name="gameModeSelect">Select game mode</string>
+    <string name="gameModeSelect">Select game mode:</string>
     <string name="relaxMode">Relax</string>
     <string name="timeMode">Time Runner</string>
-    <string name="soundSettings" >Sound</string>
+    <string name="soundSettings">Music</string>
     <string name="Off" translatable="false">Off</string>
     <string name="On" translatable="false">On</string>
     <string name="squirrel">squirrel</string>
@@ -54,11 +54,12 @@
     <string name="tomato" >tomato</string>
     <string name="cucumber" >cucumber</string>
     <string name="mandarine" >mandarine</string>
-    <string name="categoryChooseMsg">Shake the device to choose category</string>
+    <string name="categoryChooseMsg">Shake the device "\n" to choose category</string>
     <string name="newCategory">New category</string>
     <string name="ANIMALS">ANIMALS</string>
     <string name="FOOD">FOOD</string>
     <string name="GEOGRAPHY">GEOGRAPHY</string>
+    <string name="HISTORY">HISTORY</string>
     <string name="ALL">ALL</string>
     <string name="winner">You won!</string>
     <string name="looser">You lost!</string>
@@ -70,4 +71,24 @@
     <string name="player_2">Player 2</string>
     <string name="your_word">Your word</string>
     <string name="wordsNumber">Rounds number</string>
+    <string name="reset" translatable="false">Reset round</string>
+    <string name="save">save</string>
+    <string name="Field_cannot_be_empty">Field cannot be empty</string>
+    <string name="gameDescription">Gra polega na odgadywaniu słów. Na planszy mamy ukryte słowo (losowe w trybie 1-osobowym lub wpisywane przez przeciwnika w trybie 2-osobowym). Każda litera zamieniona jest znakiem \'-\'. Poniżej umieszczona jest klawiatura zawierająca wszystkie litery alfabetu. Gracz wybiera dowolną literę. Jeśli litera znajduje się w odgadywanym słowie, w haśle zostaną odsłonięte wszystkie wystąpienia tej litery. Każdą literę można zaznaczyć tylko raz. Jeśli nie trafimy, stopniowo zaczyna rysować się wisielec. W każdym haśle możemy popełnić 6 błędów. Jeśli popełnimy kolejny błąd, rozgrywka skończy się.</string>
+    <string name="sobieski">sobieski</string>
+    <string name="chrobry">chrobry</string>
+    <string name="wawel">wawel</string>
+    <string name="potop">deluge</string>
+    <string name="knight">knight</string>
+    <string name="sabre">sabre</string>
+    <string name="sword">sword</string>
+    <string name="jagiełło">jagiełło</string>
+    <string name="wizna">wizna</string>
+    <string name="piłsudski">piłsudski</string>
+    <string name="grunwald">grunwald</string>
+    <string name="crusaders">crusaders</string>
+    <string name="crusade">crusade</string>
+    <string name="kościuszko">kościuszko</string>
+    <string name="hussar" >hussar</string>
+
 </resources>

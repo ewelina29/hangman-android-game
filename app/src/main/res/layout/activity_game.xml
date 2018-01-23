@@ -45,17 +45,18 @@
 
         <FrameLayout
             android:id="@+id/pointsFrame"
-            android:layout_width="100dp"
+            android:layout_width="120dp"
             android:layout_height="50dp"
             android:layout_gravity="right"
             android:background="@drawable/text_background"
-            android:visibility="invisible">
+            >
 
             <com.example.eweli.sm_projekt.LetterTextView
                 android:id="@+id/pointsLabel"
                 style="@style/InfoLabelView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+
                 />
 
 
@@ -316,6 +317,7 @@
         android:layout_gravity="bottom|center"
         android:background="@drawable/text_background"
         android:visibility="invisible"
+
         >
 
         <LinearLayout
@@ -337,6 +339,11 @@
                 android:id="@+id/duelNextWordRedirect"
                 style="@style/RedirectButton"
                 android:text="@string/nextWord" />
+
+            <com.example.eweli.sm_projekt.LetterTextView
+                android:id="@+id/duetMenuRedirect"
+                style="@style/RedirectButton"
+                android:text="@string/menu" />
 
 
         </LinearLayout>

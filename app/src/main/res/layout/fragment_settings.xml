@@ -11,69 +11,37 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:scaleType="centerCrop"
-        android:scaleX="0.8"
-        android:scaleY="1.5"
+        android:scaleX="0.9"
+        android:scaleY="0.5"
         android:src="@drawable/text_background">
 
     </ImageView>
 
-    <TextView
+    <com.example.eweli.sm_projekt.LetterTextView
         android:id="@+id/textView"
         style="@style/MenuTheme"
+        android:text="@string/soundSettings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/imageView"
-        android:layout_centerHorizontal="true"/>
+        android:layout_marginStart="62dp"
+        android:letterSpacing="0.3"
+        android:layout_centerVertical="true"
+        android:layout_alignStart="@+id/imageView" />
 
-    <RadioGroup
-        android:id="@+id/levelRadioGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/textView"
-        android:layout_alignTop="@+id/imageView"
-        android:layout_marginTop="59dp">
-
-        <RadioButton
-            android:id="@+id/kindergartenLevel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:buttonTint="@color/colorPrimary"
-            android:layoutDirection="ltr"
-            android:checked="true"
-            android:paddingBottom="5dp"
-            android:textSize="20sp" />
+    <com.example.eweli.sm_projekt.LetterTextView
+        android:id="@+id/soundSettings"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        style="@style/MenuTheme"
+        android:layout_marginStart="31dp"
+        android:clickable="true"
+        android:layout_alignBaseline="@+id/textView"
+        android:layout_alignBottom="@+id/textView"
+        android:layout_toEndOf="@+id/textView" />
 
 
-        <RadioButton
-            android:id="@+id/universityLevel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:buttonTint="@color/colorPrimary"
-            android:layoutDirection="rtl" />
-
-    </RadioGroup>
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_alignTop="@+id/levelRadioGroup"
-        android:layout_toEndOf="@+id/levelRadioGroup"
-        android:gravity="center_vertical"
-        android:textColor="#000000"
-        android:textSize="20sp" />
 
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_alignBottom="@+id/levelRadioGroup"
-        android:layout_alignStart="@+id/textView3"
-        android:gravity="center_vertical"
-        android:textColor="#000000"
-        android:textSize="20sp" />
 
 
 </RelativeLayout>

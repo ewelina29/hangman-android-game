@@ -5,6 +5,7 @@ public enum Category {
     GEOGRAPHY,
     ANIMALS,
     FOOD,
+    HISTORY,
     ALL;
 
 

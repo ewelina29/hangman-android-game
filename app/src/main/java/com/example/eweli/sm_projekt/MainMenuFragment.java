@@ -27,10 +27,10 @@ import static com.example.eweli.sm_projekt.MenuActivity.PREFERENCES_NAME;
 public class MainMenuFragment extends Fragment implements View.OnClickListener {
 
 
-    private Button startGameBtn;
-    private Button settingsBtn;
-    private Button aboutBtn;
-    private Button exitBtn;
+    private LetterTextView startGameBtn;
+    private LetterTextView settingsBtn;
+    private LetterTextView aboutBtn;
+    private LetterTextView exitBtn;
 
     private FragmentManager manager;
 
@@ -48,10 +48,10 @@ public class MainMenuFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main_menu, parent, false);
 
-        startGameBtn = (Button) rootView.findViewById(R.id.startGame);
-        settingsBtn = (Button) rootView.findViewById(R.id.settings);
-        aboutBtn = (Button) rootView.findViewById(R.id.about);
-        exitBtn = (Button) rootView.findViewById(R.id.exit);
+        startGameBtn = (LetterTextView) rootView.findViewById(R.id.startGame);
+        settingsBtn = (LetterTextView) rootView.findViewById(R.id.settings);
+        aboutBtn = (LetterTextView) rootView.findViewById(R.id.about);
+        exitBtn = (LetterTextView) rootView.findViewById(R.id.exit);
 
         startGameBtn.setOnClickListener(this);
         settingsBtn.setOnClickListener(this);
@@ -69,27 +69,40 @@ public class MainMenuFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.startGame:
 
-
-               /* SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-                //String currentLevel = getResources().getString(R.string.currentLevel);
-                String currentLevel = sharedPref.getString(getString(R.string.currentLevel), getString(R.string.kindergarten));
-                */
-
                 String[] gameModes = {getString(R.string.singleGame), getString(R.string.duelGame)};
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle(getString(R.string.gameModeSelect));
-                builder.setItems(gameModes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int item) {
+                final AlertDialog builder = new AlertDialog.Builder(getActivity()).create();
+                builder.setCancelable(false);
+
+                View rootView = View.inflate(getContext(), R.layout.game_mode, null);
+
+                final LetterTextView single = (LetterTextView) rootView.findViewById(R.id.singleGameMode);
+                final LetterTextView duet = (LetterTextView) rootView.findViewById(R.id.duetGameMode);
+                single.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
                         Intent game = new Intent(getActivity(), GameActivity.class);
-                        game.putExtra("mode", item+1);
+                        game.putExtra("mode", 1);
                         startActivity(game);
+                        builder.dismiss();
+
                     }
                 });
-                AlertDialog alert = builder.create();
-                alert.show();
+                duet.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Intent game = new Intent(getActivity(), GameActivity.class);
+                        game.putExtra("mode", 2);
+                        startActivity(game);
+                        builder.dismiss();
+
+                    }
+                });
 
 
-
+                builder.setView(rootView);
+                builder.show();
+                builder.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
                 break;
             case R.id.settings:

@@ -53,11 +53,12 @@
     <string name="tomato">pomidor</string>
     <string name="ukraine">Ukraina</string>
     <string name="whale">wieloryb</string>
-    <string name="categoryChooseMsg">Potrząśnij telefonem, żeby wylosować kategorię.</string>
+    <string name="categoryChooseMsg">Potrząśnij telefonem, "\n"żeby wylosować kategorię.</string>
     <string name="newCategory">Nowa kategoria</string>
     <string name="ANIMALS">ZWIERZĘTA</string>
     <string name="FOOD">JEDZENIE</string>
     <string name="GEOGRAPHY">GEOGRAFIA</string>
+    <string name="HISTORY">HISTORIA</string>
     <string name="ALL">WSZYSTKIE</string>
     <string name="winner">Wygrałeś!</string>
     <string name="looser">Przegrałeś!</string>
@@ -65,4 +66,24 @@
     <string name="duelGame">2 graczy</string>
     <string name="nextWord">Następne hasło</string>
     <string name="menu">menu</string>
+    <string name="Field_cannot_be_empty">Pole nie może być puste</string>
+    <string name="save">Zapisz</string>
+    <string name="player_1">Gracz 1</string>
+    <string name="player_2">Gracz 2</string>
+    <string name="wordsNumber">Ilość rund</string>
+    <string name="your_word">Twoje hasło</string>
+    <string name="gameDescription">Gra polega na odgadywaniu słów. Na planszy mamy ukryte słowo (losowe w trybie 1-osobowym lub wpisywane przez przeciwnika w trybie 2-osobowym). Każda litera zamieniona jest znakiem \'-\'. Poniżej umieszczona jest klawiatura zawierająca wszystkie litery alfabetu. Gracz wybiera dowolną literę. Jeśli litera znajduje się w odgadywanym słowie, w haśle zostaną odsłonięte wszystkie wystąpienia tej litery. Każdą literę można zaznaczyć tylko raz. Jeśli nie trafimy, stopniowo zaczyna rysować się wisielec. W każdym haśle możemy popełnić 6 błędów. Jeśli popełnimy kolejny błąd, rozgrywka skończy się.</string>
+    <string name="sobieski">sobieski</string>
+    <string name="chrobry">chrobry</string>
+    <string name="wawel">wawel</string>
+    <string name="potop">deluge</string>
+    <string name="hussar" >husaria</string>
+    <string name="jagiełło">jagiełło</string>
+    <string name="knight">rycerz</string>
+    <string name="kościuszko">kościuszko</string>
+    <string name="piłsudski">piłsudski</string>
+    <string name="sabre">szabla</string>
+    <string name="sword">miecz</string>
+    <string name="wizna">wizna</string>
+
 </resources>
