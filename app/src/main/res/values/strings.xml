@@ -78,7 +78,6 @@
     <string name="sobieski">sobieski</string>
     <string name="chrobry">chrobry</string>
     <string name="wawel">wawel</string>
-    <string name="potop">deluge</string>
     <string name="knight">knight</string>
     <string name="sabre">sabre</string>
     <string name="sword">sword</string>
@@ -90,5 +89,6 @@
     <string name="crusade">crusade</string>
     <string name="kościuszko">kościuszko</string>
     <string name="hussar" >hussar</string>
+    <string name="deluge">deluge</string>
 
 </resources>

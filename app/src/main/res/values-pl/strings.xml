@@ -76,7 +76,6 @@
     <string name="sobieski">sobieski</string>
     <string name="chrobry">chrobry</string>
     <string name="wawel">wawel</string>
-    <string name="potop">deluge</string>
     <string name="hussar" >husaria</string>
     <string name="jagiełło">jagiełło</string>
     <string name="knight">rycerz</string>
@@ -88,5 +87,6 @@
     <string name="crusade">krucjata</string>
     <string name="crusaders">krzyżacy</string>
     <string name="grunwald">grunwald</string>
+    <string name="deluge">potop</string>
 
 </resources>

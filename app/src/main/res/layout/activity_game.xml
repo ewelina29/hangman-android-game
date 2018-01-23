@@ -49,6 +49,7 @@
             android:layout_height="50dp"
             android:layout_gravity="right"
             android:background="@drawable/text_background"
+            android:visibility="invisible"
             >
 
             <com.example.eweli.sm_projekt.LetterTextView

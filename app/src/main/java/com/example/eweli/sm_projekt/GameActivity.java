@@ -545,7 +545,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                     duetResultText.setText(R.string.winner);
                     duetResultText.setTextColor(Color.GREEN);
                     changeFrames();
-                    changePlayer();
+                     changePlayer();
 //                    showWordInput();
 
                 }

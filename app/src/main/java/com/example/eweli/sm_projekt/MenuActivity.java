@@ -149,7 +149,7 @@ public class MenuActivity extends AppCompatActivity {
         database.addWord(word);
         word = new Word(getString(R.string.wawel), Category.HISTORY.name());
         database.addWord(word);
-        word = new Word(getString(R.string.potop), Category.HISTORY.name());
+        word = new Word(getString(R.string.deluge), Category.HISTORY.name());
         database.addWord(word);
         word = new Word(getString(R.string.hussar), Category.HISTORY.name());
         database.addWord(word);
